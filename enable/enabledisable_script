@@ -1,12 +1,7 @@
-const scriptSheetURL = 'sheeturl';
+const scriptSheetURL = 'https://docs.google.com/spreadsheets/d/1lsmDvfbU9L4n6yuMZcWnH3OzVSDlq3uK3GZsN0pEmw0/edit?gid=1681209226#gid=1681209226'; //make copy, replace account name and sale name
 const scriptSheet =  SpreadsheetApp.openByUrl(scriptSheetURL);
 
-const salePeriod = {
-    start: 'yyyy-MM-dd',
-    end: 'yyyy-MM-dd'
-};
-
-const saleLabel = "sale-script";
+//test
 
 const campaignQuery = `
 SELECT 
@@ -98,5 +93,7 @@ function AssetEnablePause(asset){
     } 
 }
 
-
+function main (){
+    //informaiton
+}
 
