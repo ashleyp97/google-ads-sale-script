@@ -44,7 +44,7 @@ WHERE
   asset_group_asset.status != 'REMOVED' 
 `;
 
-function getDate () {
+function getCurrentDate () {
     const timeZone = AdsApp.currentAccount().getTimeZone();
     const now = new Date ();
     const today= Utilities.formatDate(now, timeZone, "yyyy-MM-dd");
@@ -54,53 +54,37 @@ function getDate () {
 }
 
 function isSaleActive (){
-    const { today } = getDate();
-    const start = salePeriod.start;
-    const end = salePeriod.end;
-    const label = saleLabel;
-
-    if (today >= start && today <= end){
+    const { today } = getCurrentDate();
+    if (today >= saleStart && today <= saleEnd){
         return true;
     } else {
         return false;
     } 
 }
 
-function hasLabel(entity,saleLabel){
-    return (entity.name.toLowerCase().includes(saleLabel.toLowerCase()))
-}
-
 function CampaignEnablePause(campaign){
-    if (hasLabel(campaign,saleLabel)) {
-        if (isSaleActive() && campaign.isPaused()){
-            campaign.enable();
-        } else if (!isSaleActive() && campaign.isEnabled()) {
-            campaign.pause();
-        }
-    } 
+    if (isSaleActive() && campaign.isPaused()){
+        campaign.enable();
+    } else if (!isSaleActive() && campaign.isEnabled()) {
+        campaign.pause();
+    }
 }
 
-function AdEnablePause(ad){
-    if (hasLabel(saleLabel)) {
-        if (isSaleActive() && ad.isPaused()){
-            ad.enable();
-        } else if (!isSaleActive() && ad.isEnabled()) {
-            ad.pause();
-        }
-    } 
+function CampaignEnablePause(ad){
+    if (isSaleActive() && ad.isPaused()){
+        ad.enable();
+    } else if (!isSaleActive() && ad.isEnabled()) {
+        ad.pause();
+    }
 }
 
-function AssetEnablePause(asset){
-    if (hasLabel(saleLabel)) {
-        if (isSaleActive() && asset.isPaused()){
-            asset.enable();
-        } else if (!isSaleActive() && asset.isEnabled()) {
-            asset.pause();
-        }
-    } 
-}
+
 
 function main (){
-    //informaiton
+
+    if (!saleLabel) {
+        return "error: sales label empty, review sheet."
+    }
+    
 }
 

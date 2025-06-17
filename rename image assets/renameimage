@@ -1,0 +1,19 @@
+const folder = DriveApp.getFolderById("folder-id-here"); //create folder > copy folder link > paste link in browser > folder ID (example: /1xWoePi4nqwkWUckoy2jkCTB83k8mn8iu?usp=drive_link)
+
+const label = "yourlabel";
+
+function loopImage(folder) {
+  const files = folder.getFilesByType(MimeType.JPEG)
+
+  while (files.hasNext()){
+    let file = file.getNext();
+    let filename = file.getName();
+    let dotIndex = filename.lastIndexOf(".");
+    let splitName = filename.split(".");
+    let basename = filename.substring(0,dotIndex);
+    let extension = filename.substring(dotIndex);
+
+    let newName = basename + "_" + label + extension;
+    files.setName(newName);
+  }
+};
