@@ -1,0 +1,56 @@
+const scriptSheetUrl = 'https://docs.google.com/spreadsheets/d/1EetmdddpVxsD49NYKXy0cEj3pbfKl1KKlnwh5hxrURk/edit?gid=2011369387#gid=2011369387'
+const scriptSheet = SpreadsheetApp.openByURL(scriptSheetURL)
+
+//initialize google sheet
+// set up GAQL for campaign tab
+// set up GAQL for ad group tab
+// set up GAQL for assets tab
+
+const Campaign_Query = `
+SELECT 
+  campaign.name, 
+  campaign.id, 
+  campaign.status, 
+  campaign.advertising_channel_type, 
+  metrics.conversions, 
+  metrics.clicks, 
+  metrics.impressions, 
+  metrics.conversions_value, 
+  metrics.average_cpc, 
+  metrics.cost_micros, 
+  metrics.cost_per_conversion, 
+  metrics.ctr, 
+  metrics.video_views, 
+  metrics.video_view_rate 
+FROM campaign 
+WHERE 
+  campaign.status = 'ENABLED'
+  AND segments.date >= '2025-06-01' 
+  AND segments.date <= '2025-06-10'
+`;
+
+const Ad_Group_Query = `
+SELECT 
+  ad_group_ad.status, 
+  campaign.name, 
+  campaign.status, 
+  ad_group.status, 
+  metrics.conversions, 
+  metrics.conversions_value, 
+  metrics.cost_micros, 
+  metrics.clicks, 
+  metrics.impressions, 
+  metrics.ctr, 
+  metrics.cost_per_conversion 
+  metrics.video_views, 
+  metrics.video_view_rate 
+FROM ad_group_ad 
+WHERE 
+  AND segments.date >= '2025-06-01' 
+  AND segments.date <= '2025-06-10'
+`;
+
+const Asset_Query = `
+
+
+`

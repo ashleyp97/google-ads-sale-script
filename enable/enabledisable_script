@@ -1,0 +1,102 @@
+const scriptSheetURL = 'sheeturl';
+const scriptSheet =  SpreadsheetApp.openByUrl(scriptSheetURL);
+
+const salePeriod = {
+    start: 'yyyy-MM-dd',
+    end: 'yyyy-MM-dd'
+};
+
+const saleLabel = "sale-script";
+
+const campaignQuery = `
+SELECT 
+  campaign.id, 
+  campaign.name, 
+  campaign.status, 
+  campaign.labels 
+FROM campaign 
+WHERE 
+  campaign.status != 'REMOVED'
+`;
+
+const adQuery = `
+SELECT 
+  ad_group.id, 
+  ad_group.name, 
+  ad_group_ad.status,
+  ad_group_ad.ad.type 
+FROM ad_group_ad 
+WHERE 
+  ad_group.status != 'REMOVED' 
+  AND ad_group_ad.status != 'REMOVED' 
+`;
+
+const assetQuery = `
+SELECT 
+  asset_group_asset.asset, 
+  asset_group_asset.status, 
+  asset_group_asset.field_type, 
+  asset_group_asset.asset_group 
+FROM asset_group_asset 
+WHERE 
+  asset_group_asset.status != 'REMOVED' 
+`;
+
+function getDate () {
+    const timeZone = AdsApp.currentAccount().getTimeZone();
+    const now = new Date ();
+    const today= Utilities.formatDate(now, timeZone, "yyyy-MM-dd");
+    return{
+        today, timeZone
+    };
+}
+
+function isSaleActive (){
+    const { today } = getDate();
+    const start = salePeriod.start;
+    const end = salePeriod.end;
+    const label = saleLabel;
+
+    if (today >= start && today <= end){
+        return true;
+    } else {
+        return false;
+    } 
+}
+
+function hasLabel(entity,saleLabel){
+    return (entity.name.toLowerCase().includes(saleLabel.toLowerCase()))
+}
+
+function CampaignEnablePause(campaign){
+    if (hasLabel(campaign,saleLabel)) {
+        if (isSaleActive() && campaign.isPaused()){
+            campaign.enable();
+        } else if (!isSaleActive() && campaign.isEnabled()) {
+            campaign.pause();
+        }
+    } 
+}
+
+function AdEnablePause(ad){
+    if (hasLabel(saleLabel)) {
+        if (isSaleActive() && ad.isPaused()){
+            ad.enable();
+        } else if (!isSaleActive() && ad.isEnabled()) {
+            ad.pause();
+        }
+    } 
+}
+
+function AssetEnablePause(asset){
+    if (hasLabel(saleLabel)) {
+        if (isSaleActive() && asset.isPaused()){
+            asset.enable();
+        } else if (!isSaleActive() && asset.isEnabled()) {
+            asset.pause();
+        }
+    } 
+}
+
+
+
