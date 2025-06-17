@@ -1,7 +1,14 @@
 const scriptSheetURL = 'https://docs.google.com/spreadsheets/d/1lsmDvfbU9L4n6yuMZcWnH3OzVSDlq3uK3GZsN0pEmw0/edit?gid=1681209226#gid=1681209226'; //make copy, replace account name and sale name
 const scriptSheet =  SpreadsheetApp.openByUrl(scriptSheetURL);
 
-//test
+//DO NOT EDIT ANY CODE BELOW THIS LINE (or I'll cry)
+
+const settings = scriptSheet.getSheetByName("Settings");
+const saleLabel = scriptSheet.getRange("D11").getValue();
+const saleStart = scriptSheet.getRange("D14").getValue();
+const saleEnd = scriptSheet.getRange("D17").getValue();
+const email = scriptSheet.getRange("D20").getValue();
+
 
 const campaignQuery = `
 SELECT 
