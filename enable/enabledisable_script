@@ -33,17 +33,6 @@ WHERE
   AND ad_group_ad.status != 'REMOVED' 
 `;
 
-const assetQuery = `
-SELECT 
-  asset_group_asset.asset, 
-  asset_group_asset.status, 
-  asset_group_asset.field_type, 
-  asset_group_asset.asset_group 
-FROM asset_group_asset 
-WHERE 
-  asset_group_asset.status != 'REMOVED' 
-`;
-
 function getCurrentDate () {
     const timeZone = AdsApp.currentAccount().getTimeZone();
     const now = new Date ();
@@ -55,7 +44,7 @@ function getCurrentDate () {
 
 function isSaleActive (){
     const { today } = getCurrentDate();
-    if (today >= saleStart && today <= saleEnd){
+    if (today >= saleStart && today <= saleEnd &&){
         return true;
     } else {
         return false;
@@ -70,7 +59,7 @@ function CampaignEnablePause(campaign){
     }
 }
 
-function CampaignEnablePause(ad){
+function AdEnablePause(ad){
     if (isSaleActive() && ad.isPaused()){
         ad.enable();
     } else if (!isSaleActive() && ad.isEnabled()) {
@@ -78,13 +67,12 @@ function CampaignEnablePause(ad){
     }
 }
 
-
-
 function main (){
 
     if (!saleLabel) {
         return "error: sales label empty, review sheet."
     }
-    
+
+
 }
 
