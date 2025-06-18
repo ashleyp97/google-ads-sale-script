@@ -44,7 +44,7 @@ function getCurrentDate () {
 
 function isSaleActive (){
     const { today } = getCurrentDate();
-    if (today >= saleStart && today <= saleEnd &&){
+    if (today >= saleStart && today <= saleEnd){
         return true;
     } else {
         return false;
